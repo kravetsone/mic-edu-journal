@@ -8,6 +8,20 @@
       "when": 1750107318322,
       "tag": "0000_mighty_loa",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1750111677433,
+      "tag": "0001_unknown_vapor",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1750112451703,
+      "tag": "0002_ancient_electro",
+      "breakpoints": true
     }
   ]
 }
