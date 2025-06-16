@@ -27,8 +27,6 @@ RUN bun x tsc --noEmit
 # copy production dependencies and source code into final image
 FROM base AS release
 COPY --from=install /temp/prod/node_modules node_modules
-COPY --from=prerelease /usr/src/app/.env .
-COPY --from=prerelease /usr/src/app/.env.production .
 COPY --from=prerelease /usr/src/app/bun.lock .
 RUN mkdir -p /usr/src/app/src
 COPY --from=prerelease /usr/src/app/src ./src
