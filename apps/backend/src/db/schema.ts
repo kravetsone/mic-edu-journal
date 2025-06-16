@@ -1,4 +1,4 @@
-import { integer, pgEnum, pgTable, primaryKey, smallint, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, primaryKey, smallint, text, time, timestamp, uuid } from "drizzle-orm/pg-core";
 
 export const userRoleEnum = pgEnum("user_role", ["student", "teacher"]);
 
@@ -76,22 +76,24 @@ export const subjectsTable = pgTable("subjects", {
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
-export const subjectTeacherGroupsTable = pgTable("subject_teacher_groups", {
-	subjectId: uuid("subject_id")
-		.notNull()
-		.references(() => subjectsTable.id, { onDelete: "cascade" }),
 
-	teacherId: uuid("teacher_id")
-		.notNull()
-		.references(() => teachersTable.id, { onDelete: "cascade" }),
+export const schedulesTable = pgTable("schedules", {
+    id: uuid("id").primaryKey().defaultRandom(),
+    dayOfWeek: smallint("day_of_week").notNull(),
+    startTime: time("start_time").notNull(),
+    endTime: time("end_time").notNull(),
+    groupId: uuid("group_id").notNull().references(() => groupsTable.id),
+    subjectId: uuid("subject_id").notNull().references(() => subjectsTable.id),
+    teacherId: uuid("teacher_id").notNull().references(() => teachersTable.id),
+    classroomId: uuid("classroom_id").references(() => classroomsTable.id),
 
-	groupId: uuid("group_id")
-		.notNull()
-		.references(() => groupsTable.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const classroomsTable = pgTable("classrooms", {
+	id: uuid("id").primaryKey().defaultRandom(),
+
+	number: smallint("number").notNull(),
 
 	createdAt: timestamp("created_at").notNull().defaultNow(),
-	},
-	(table) => [
-		primaryKey({ columns: [table.subjectId, table.teacherId, table.groupId] }),
-	],
-);
+});

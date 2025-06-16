@@ -30,6 +30,7 @@ export const authRoutes = new Elysia({
 
 			return {
 				token,
+				role: user.role,
 			};
 		},
 		{
@@ -40,6 +41,7 @@ export const authRoutes = new Elysia({
 			response: {
 				200: t.Object({
 					token: t.String(),
+					role: t.Union([t.Literal("teacher"), t.Literal("student")]),
 				}),
 				401: t.Literal("UNAUTHORIZED"),
 			},

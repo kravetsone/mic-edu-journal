@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TeacherIndexRouteImport } from './routes/teacher/index'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-query'
 import { Route as DemoTableRouteImport } from './routes/demo.table'
 import { Route as DemoFormAddressRouteImport } from './routes/demo.form.address'
@@ -17,6 +18,11 @@ import { Route as DemoFormAddressRouteImport } from './routes/demo.form.address'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeacherIndexRoute = TeacherIndexRouteImport.update({
+  id: '/teacher/',
+  path: '/teacher/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/teacher': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/teacher': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
 }
 export interface FileRoutesById {
@@ -52,18 +60,30 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/teacher/': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/demo/table' | '/demo/tanstack-query' | '/demo/form/address'
+  fullPaths:
+    | '/'
+    | '/demo/table'
+    | '/demo/tanstack-query'
+    | '/teacher'
+    | '/demo/form/address'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/demo/table' | '/demo/tanstack-query' | '/demo/form/address'
+  to:
+    | '/'
+    | '/demo/table'
+    | '/demo/tanstack-query'
+    | '/teacher'
+    | '/demo/form/address'
   id:
     | '__root__'
     | '/'
     | '/demo/table'
     | '/demo/tanstack-query'
+    | '/teacher/'
     | '/demo/form/address'
   fileRoutesById: FileRoutesById
 }
@@ -71,6 +91,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DemoTableRoute: typeof DemoTableRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
+  TeacherIndexRoute: typeof TeacherIndexRoute
   DemoFormAddressRoute: typeof DemoFormAddressRoute
 }
 
@@ -81,6 +102,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teacher/': {
+      id: '/teacher/'
+      path: '/teacher'
+      fullPath: '/teacher'
+      preLoaderRoute: typeof TeacherIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/tanstack-query': {
@@ -111,6 +139,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DemoTableRoute: DemoTableRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
+  TeacherIndexRoute: TeacherIndexRoute,
   DemoFormAddressRoute: DemoFormAddressRoute,
 }
 export const routeTree = rootRouteImport
