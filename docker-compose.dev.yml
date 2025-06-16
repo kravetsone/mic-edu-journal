@@ -51,9 +51,9 @@ services:
 
             LABEL_postgres: Postgres
             SERVER_postgres: postgres
-            USER_postgres: postgres
+            USER_postgres: mic-edu-journal
             DATABASE_postgres: mic-edu-journal
-            PASSWORD_postgres: postgres
+            PASSWORD_postgres: fd5b47ab8081ef9597d371de
             PORT_postgres: 5432
             ENGINE_postgres: postgres@dbgate-plugin-postgres
 volumes:

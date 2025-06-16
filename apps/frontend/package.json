@@ -3,8 +3,8 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "pnpx vite --port 3000",
-		"start": "bunx vite --port 3000",
+		"dev": "pnpx vite --port 3100",
+		"start": "bunx vite --port 3100",
 		"build": "bunx vite build && tsc",
 		"serve": "bunx vite preview",
 		"test": "vitest run"
@@ -28,6 +28,7 @@
 		"lucide-react": "^0.476.0",
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
+		"react-hot-toast": "^2.5.2",
 		"tailwind-merge": "^3.0.2",
 		"tailwindcss": "^4.0.6",
 		"tailwindcss-animate": "^1.0.7",
