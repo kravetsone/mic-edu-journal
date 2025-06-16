@@ -8,15 +8,15 @@ export const Route = createFileRoute('/demo/form/simple')({
 })
 
 const schema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  description: z.string().min(1, 'Description is required'),
+  email: z.string().trim().min(1, 'Почта не может быть пустой'),
+  password: z.string().trim().min(1, 'Пароль не может быть пустым'),
 })
 
 function SimpleForm() {
   const form = useAppForm({
     defaultValues: {
-      title: '',
-      description: '',
+      email: '',
+      password: '',
     },
     validators: {
       onBlur: schema,
@@ -26,18 +26,31 @@ function SimpleForm() {
       // Show success message
       alert('Form submitted successfully!')
     },
+    
   })
+  
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 p-4 text-white"
-      style={{
-        backgroundImage:
-          'radial-gradient(50% 50% at 5% 40%, #add8e6 0%, #0000ff 70%, #00008b 100%)',
-      }}
-    >
-      <div className="w-full max-w-2xl p-8 rounded-xl backdrop-blur-md bg-black/50 shadow-xl border-8 border-black/10">
-        <form
+    <div className="w-full h-screen bg-black flex justify-around items-center text-white">
+    <div>
+      <h1 className="first-letter:text-accentSecondary text-4xl font-bold">
+        Московский
+      </h1>
+      <h1 className="first-letter:text-accentSecondary text-4xl font-bold">
+        Индустриальный
+      </h1>
+      <h1 className="first-letter:text-accentSecondary text-4xl font-bold">
+        Колледж
+      </h1>
+      <p className="text-textSecondary mt-2 text-2xl font-medium">
+        Админ-панель
+      </p>
+    </div>
+    <div className="bg-[#0A0A0A] text-center rounded-2xl p-6 w-1/4">
+        <form className="flex flex-col gap-4" onSubmit={form.handleSubmit}>
+          <h3 className="text-2xl">Авторизация</h3>
+          <div className="flex flex-col gap-2 text-textSecondary">
+          <form
           onSubmit={(e) => {
             e.preventDefault()
             e.stopPropagation()
@@ -45,21 +58,23 @@ function SimpleForm() {
           }}
           className="space-y-6"
         >
-          <form.AppField name="title">
-            {(field) => <field.TextField label="Title" />}
+          <form.AppField name="email">
+            {(field) => <field.TextField label="E-mail" />}
           </form.AppField>
 
-          <form.AppField name="description">
-            {(field) => <field.TextArea label="Description" />}
+          <form.AppField name="password">
+            {(field) => <field.TextArea label="Пароль" />}
           </form.AppField>
 
           <div className="flex justify-end">
             <form.AppForm>
-              <form.SubscribeButton label="Submit" />
+              <form.SubscribeButton label="Войти" />
             </form.AppForm>
           </div>
         </form>
-      </div>
+        </div>
+        </form>
     </div>
+  </div>
   )
 }
