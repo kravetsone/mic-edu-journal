@@ -5,6 +5,7 @@ import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 import { oauth2 } from "elysia-oauth2";
 import { config } from "./config.ts";
+import { authRoutes } from "./routes/auth/index.ts";
 
 export const app = new Elysia()
 	.use(swagger())
@@ -12,4 +13,6 @@ export const app = new Elysia()
 	.use(bearer())
 	.use(cors())
 	.use(jwt({ secret: config.JWT_SECRET }))
-	.get("/", "Hello World");
+	.use(authRoutes);
+
+export type App = typeof app;
