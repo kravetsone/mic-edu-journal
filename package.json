@@ -2,5 +2,11 @@
 	"name": "mic-edu-journal",
 	"type": "module",
 	"private": true,
-	"workspaces": ["apps/*", "packages/*"]
+	"workspaces": ["apps/*", "packages/*"],
+    "overrides": {
+		"@tanstack/react-router": "^1.121.2",
+		"@tanstack/router-generator": "1.121.16",
+		"@tanstack/router-plugin": "1.121.16",
+		"@tanstack/router-core": "1.121.16"
+	}
 }
