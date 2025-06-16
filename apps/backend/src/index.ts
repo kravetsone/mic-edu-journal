@@ -1,6 +1,7 @@
 import { config } from "./config.ts";
 import { app } from "./server.ts";
 import { posthog } from "./services/posthog.ts";
+
 const signals = ["SIGINT", "SIGTERM"];
 
 for (const signal of signals) {
