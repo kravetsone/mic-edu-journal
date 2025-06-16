@@ -1,0 +1,6 @@
+{
+	"name": "mic-edu-journal",
+	"type": "module",
+	"private": true,
+	"workspaces": ["apps/*", "packages/*"]
+}
