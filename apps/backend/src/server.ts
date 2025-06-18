@@ -6,15 +6,18 @@ import { Elysia } from "elysia";
 import { oauth2 } from "elysia-oauth2";
 import { config } from "./config.ts";
 import { authRoutes } from "./routes/auth/index.ts";
-import { teacherScheduleRoutes } from "./routes/teacher/schedule.ts";
+import { teacherRoutes } from "./routes/teacher/index.ts";
 
 export const app = new Elysia()
+	.onError(({ error, request }) => {
+		console.log(error, request);
+	})
 	.use(swagger())
 	.use(oauth2({}))
 	.use(bearer())
 	.use(cors())
 	.use(jwt({ secret: config.JWT_SECRET }))
 	.use(authRoutes)
-	.use(teacherScheduleRoutes);
+	.use(teacherRoutes);
 
 export type App = typeof app;
