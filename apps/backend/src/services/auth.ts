@@ -1,7 +1,7 @@
 import { bearer } from "@elysiajs/bearer";
-import jwt from "@elysiajs/jwt";
+import { jwt } from "@elysiajs/jwt";
 import { Elysia, t } from "elysia";
-import { config } from "../config";
+import { config } from "../config.ts";
 
 export const authPlugin = new Elysia()
 	.use(bearer())

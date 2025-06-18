@@ -1,8 +1,8 @@
 import { eq } from "drizzle-orm";
 import { Elysia, t } from "elysia";
-import { db } from "../../db";
-import { usersTable } from "../../db/schema";
-import { authPlugin } from "../../services/auth";
+import { db } from "../../db/index.ts";
+import { usersTable } from "../../db/schema.ts";
+import { authPlugin } from "../../services/auth.ts";
 
 export const authRoutes = new Elysia({
 	prefix: "/auth",
