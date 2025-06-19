@@ -41,7 +41,11 @@ export const authRoutes = new Elysia({
 			response: {
 				200: t.Object({
 					token: t.String(),
-					role: t.Union([t.Literal("teacher"), t.Literal("student")]),
+					role: t.Union([
+						t.Literal("teacher"),
+						t.Literal("student"),
+						t.Literal("admin"),
+					]),
 				}),
 				401: t.Literal("UNAUTHORIZED"),
 			},

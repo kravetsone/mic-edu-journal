@@ -12,7 +12,11 @@ import {
 	uuid,
 } from "drizzle-orm/pg-core";
 
-export const userRoleEnum = pgEnum("user_role", ["student", "teacher"]);
+export const userRoleEnum = pgEnum("user_role", [
+	"student",
+	"teacher",
+	"admin",
+]);
 
 export const usersTable = pgTable("users", {
 	id: uuid("id").primaryKey().defaultRandom(),

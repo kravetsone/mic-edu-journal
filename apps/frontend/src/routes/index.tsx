@@ -30,7 +30,12 @@ function App() {
 
 			localStorage.setItem("token", data?.token);
 			toast.success("Вы успешно вошли в систему");
-			navigate({ to: "/teacher" });
+
+			if (data?.role === "admin") {
+				navigate({ to: "/admin/groups" });
+			} else {
+				navigate({ to: "/teacher" });
+			}
 		},
 		onError: (error) => {
 			console.error(error);

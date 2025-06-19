@@ -5,6 +5,7 @@ import { swagger } from "@elysiajs/swagger";
 import { Elysia } from "elysia";
 import { oauth2 } from "elysia-oauth2";
 import { config } from "./config.ts";
+import { adminRoutes } from "./routes/admin/index.ts";
 import { authRoutes } from "./routes/auth/index.ts";
 import { teacherRoutes } from "./routes/teacher/index.ts";
 
@@ -18,6 +19,7 @@ export const app = new Elysia()
 	.use(cors())
 	.use(jwt({ secret: config.JWT_SECRET }))
 	.use(authRoutes)
-	.use(teacherRoutes);
+	.use(teacherRoutes)
+	.use(adminRoutes);
 
 export type App = typeof app;

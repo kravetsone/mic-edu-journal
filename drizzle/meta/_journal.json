@@ -43,6 +43,13 @@
       "when": 1750298701670,
       "tag": "0005_married_patch",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1750300206251,
+      "tag": "0006_cloudy_namora",
+      "breakpoints": true
     }
   ]
 }

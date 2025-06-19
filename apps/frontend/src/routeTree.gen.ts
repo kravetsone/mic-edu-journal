@@ -11,8 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeacherIndexRouteImport } from './routes/teacher/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-query'
 import { Route as DemoTableRouteImport } from './routes/demo.table'
+import { Route as AdminGroupsIndexRouteImport } from './routes/admin/groups/index'
 import { Route as DemoFormAddressRouteImport } from './routes/demo.form.address'
 import { Route as TeacherSubjectsSubjectIdChooseGroupRouteImport } from './routes/teacher/subjects/$subjectId/choose-group'
 import { Route as TeacherSubjectsSubjectIdGroupsGroupIdMarksRouteImport } from './routes/teacher/subjects/$subjectId/groups/$groupId/marks'
@@ -27,6 +29,11 @@ const TeacherIndexRoute = TeacherIndexRouteImport.update({
   path: '/teacher/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
   id: '/demo/tanstack-query',
   path: '/demo/tanstack-query',
@@ -35,6 +42,11 @@ const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
 const DemoTableRoute = DemoTableRouteImport.update({
   id: '/demo/table',
   path: '/demo/table',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminGroupsIndexRoute = AdminGroupsIndexRouteImport.update({
+  id: '/admin/groups/',
+  path: '/admin/groups/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
@@ -59,8 +71,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/admin': typeof AdminIndexRoute
   '/teacher': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
+  '/admin/groups': typeof AdminGroupsIndexRoute
   '/teacher/subjects/$subjectId/choose-group': typeof TeacherSubjectsSubjectIdChooseGroupRoute
   '/teacher/subjects/$subjectId/groups/$groupId/marks': typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute
 }
@@ -68,8 +82,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/admin': typeof AdminIndexRoute
   '/teacher': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
+  '/admin/groups': typeof AdminGroupsIndexRoute
   '/teacher/subjects/$subjectId/choose-group': typeof TeacherSubjectsSubjectIdChooseGroupRoute
   '/teacher/subjects/$subjectId/groups/$groupId/marks': typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute
 }
@@ -78,8 +94,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/demo/table': typeof DemoTableRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/admin/': typeof AdminIndexRoute
   '/teacher/': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
+  '/admin/groups/': typeof AdminGroupsIndexRoute
   '/teacher/subjects/$subjectId/choose-group': typeof TeacherSubjectsSubjectIdChooseGroupRoute
   '/teacher/subjects/$subjectId/groups/$groupId/marks': typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute
 }
@@ -89,8 +107,10 @@ export interface FileRouteTypes {
     | '/'
     | '/demo/table'
     | '/demo/tanstack-query'
+    | '/admin'
     | '/teacher'
     | '/demo/form/address'
+    | '/admin/groups'
     | '/teacher/subjects/$subjectId/choose-group'
     | '/teacher/subjects/$subjectId/groups/$groupId/marks'
   fileRoutesByTo: FileRoutesByTo
@@ -98,8 +118,10 @@ export interface FileRouteTypes {
     | '/'
     | '/demo/table'
     | '/demo/tanstack-query'
+    | '/admin'
     | '/teacher'
     | '/demo/form/address'
+    | '/admin/groups'
     | '/teacher/subjects/$subjectId/choose-group'
     | '/teacher/subjects/$subjectId/groups/$groupId/marks'
   id:
@@ -107,8 +129,10 @@ export interface FileRouteTypes {
     | '/'
     | '/demo/table'
     | '/demo/tanstack-query'
+    | '/admin/'
     | '/teacher/'
     | '/demo/form/address'
+    | '/admin/groups/'
     | '/teacher/subjects/$subjectId/choose-group'
     | '/teacher/subjects/$subjectId/groups/$groupId/marks'
   fileRoutesById: FileRoutesById
@@ -117,8 +141,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DemoTableRoute: typeof DemoTableRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
+  AdminIndexRoute: typeof AdminIndexRoute
   TeacherIndexRoute: typeof TeacherIndexRoute
   DemoFormAddressRoute: typeof DemoFormAddressRoute
+  AdminGroupsIndexRoute: typeof AdminGroupsIndexRoute
   TeacherSubjectsSubjectIdChooseGroupRoute: typeof TeacherSubjectsSubjectIdChooseGroupRoute
   TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute: typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute
 }
@@ -139,6 +165,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/tanstack-query': {
       id: '/demo/tanstack-query'
       path: '/demo/tanstack-query'
@@ -151,6 +184,13 @@ declare module '@tanstack/react-router' {
       path: '/demo/table'
       fullPath: '/demo/table'
       preLoaderRoute: typeof DemoTableRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/groups/': {
+      id: '/admin/groups/'
+      path: '/admin/groups'
+      fullPath: '/admin/groups'
+      preLoaderRoute: typeof AdminGroupsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/form/address': {
@@ -181,8 +221,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DemoTableRoute: DemoTableRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
+  AdminIndexRoute: AdminIndexRoute,
   TeacherIndexRoute: TeacherIndexRoute,
   DemoFormAddressRoute: DemoFormAddressRoute,
+  AdminGroupsIndexRoute: AdminGroupsIndexRoute,
   TeacherSubjectsSubjectIdChooseGroupRoute:
     TeacherSubjectsSubjectIdChooseGroupRoute,
   TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute:
