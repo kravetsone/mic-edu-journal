@@ -15,6 +15,7 @@ import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-qu
 import { Route as DemoTableRouteImport } from './routes/demo.table'
 import { Route as DemoFormAddressRouteImport } from './routes/demo.form.address'
 import { Route as TeacherSubjectsSubjectIdChooseGroupRouteImport } from './routes/teacher/subjects/$subjectId/choose-group'
+import { Route as TeacherSubjectsSubjectIdGroupsGroupIdMarksRouteImport } from './routes/teacher/subjects/$subjectId/groups/$groupId/marks'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -47,6 +48,12 @@ const TeacherSubjectsSubjectIdChooseGroupRoute =
     path: '/teacher/subjects/$subjectId/choose-group',
     getParentRoute: () => rootRouteImport,
   } as any)
+const TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute =
+  TeacherSubjectsSubjectIdGroupsGroupIdMarksRouteImport.update({
+    id: '/teacher/subjects/$subjectId/groups/$groupId/marks',
+    path: '/teacher/subjects/$subjectId/groups/$groupId/marks',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -55,6 +62,7 @@ export interface FileRoutesByFullPath {
   '/teacher': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/teacher/subjects/$subjectId/choose-group': typeof TeacherSubjectsSubjectIdChooseGroupRoute
+  '/teacher/subjects/$subjectId/groups/$groupId/marks': typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -63,6 +71,7 @@ export interface FileRoutesByTo {
   '/teacher': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/teacher/subjects/$subjectId/choose-group': typeof TeacherSubjectsSubjectIdChooseGroupRoute
+  '/teacher/subjects/$subjectId/groups/$groupId/marks': typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -72,6 +81,7 @@ export interface FileRoutesById {
   '/teacher/': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
   '/teacher/subjects/$subjectId/choose-group': typeof TeacherSubjectsSubjectIdChooseGroupRoute
+  '/teacher/subjects/$subjectId/groups/$groupId/marks': typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -82,6 +92,7 @@ export interface FileRouteTypes {
     | '/teacher'
     | '/demo/form/address'
     | '/teacher/subjects/$subjectId/choose-group'
+    | '/teacher/subjects/$subjectId/groups/$groupId/marks'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -90,6 +101,7 @@ export interface FileRouteTypes {
     | '/teacher'
     | '/demo/form/address'
     | '/teacher/subjects/$subjectId/choose-group'
+    | '/teacher/subjects/$subjectId/groups/$groupId/marks'
   id:
     | '__root__'
     | '/'
@@ -98,6 +110,7 @@ export interface FileRouteTypes {
     | '/teacher/'
     | '/demo/form/address'
     | '/teacher/subjects/$subjectId/choose-group'
+    | '/teacher/subjects/$subjectId/groups/$groupId/marks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -107,6 +120,7 @@ export interface RootRouteChildren {
   TeacherIndexRoute: typeof TeacherIndexRoute
   DemoFormAddressRoute: typeof DemoFormAddressRoute
   TeacherSubjectsSubjectIdChooseGroupRoute: typeof TeacherSubjectsSubjectIdChooseGroupRoute
+  TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute: typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -153,6 +167,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeacherSubjectsSubjectIdChooseGroupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/teacher/subjects/$subjectId/groups/$groupId/marks': {
+      id: '/teacher/subjects/$subjectId/groups/$groupId/marks'
+      path: '/teacher/subjects/$subjectId/groups/$groupId/marks'
+      fullPath: '/teacher/subjects/$subjectId/groups/$groupId/marks'
+      preLoaderRoute: typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -164,6 +185,8 @@ const rootRouteChildren: RootRouteChildren = {
   DemoFormAddressRoute: DemoFormAddressRoute,
   TeacherSubjectsSubjectIdChooseGroupRoute:
     TeacherSubjectsSubjectIdChooseGroupRoute,
+  TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute:
+    TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

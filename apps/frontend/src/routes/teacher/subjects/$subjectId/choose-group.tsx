@@ -44,11 +44,11 @@ function ChooseGroupPage() {
 
 	const backToSubjects = () => navigate({ to: "/teacher" });
 
-	const handleSelectGroup = (group: any) => {
-		// navigate({
-		// 	to: "/teacher/students",
-		// 	state: { group, subject: subject.data },
-		// });
+	const handleSelectGroup = (group: { id: string }) => {
+		navigate({
+			to: "/teacher/subjects/$subjectId/groups/$groupId/marks",
+			params: { subjectId, groupId: group.id },
+		});
 	};
 
 	return (
