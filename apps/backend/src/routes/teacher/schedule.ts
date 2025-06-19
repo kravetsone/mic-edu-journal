@@ -9,10 +9,6 @@ export const teacherScheduleRoutes = new Elysia({ prefix: "/schedule" })
 		async ({ userId, params: { date }, status }) => {
 			const schedule = await getTeacherDateSchedule(userId, date);
 
-			if (!schedule?.length) {
-				return status(404, "NOT_FOUND");
-			}
-
 			return schedule;
 		},
 		{

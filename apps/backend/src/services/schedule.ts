@@ -17,7 +17,7 @@ import type {
 export const getTeacherDateSchedule = async (
 	userId: string,
 	dateRaw: string,
-): Promise<WeekScheduleItem[] | null> => {
+): Promise<WeekScheduleItem[]> => {
 	const date = DateTime.fromFormat(dateRaw, "dd.MM.yyyy", {
 		zone: "Europe/Moscow",
 	});
