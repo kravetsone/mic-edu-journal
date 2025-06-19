@@ -24,8 +24,7 @@ export const authPlugin = new Elysia()
 					401: t.Literal("UNAUTHORIZED"),
 				},
 			},
-			resolve: async ({ jwt, bearer, status }) => {
-				const token = bearer?.token;
+			resolve: async ({ jwt, bearer: token, status }) => {
 				if (!token) return status(401, "UNAUTHORIZED");
 
 				const payload = await jwt.verify(token);

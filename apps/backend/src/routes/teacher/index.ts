@@ -60,7 +60,11 @@ export const teacherRoutes = new Elysia({ prefix: "/teacher" })
 					subjectsTable,
 					eq(schedulesTable.subjectId, subjectsTable.id),
 				)
-				.where(eq(schedulesTable.teacherId, userId));
+				.innerJoin(
+					teachersTable,
+					eq(schedulesTable.teacherId, teachersTable.id),
+				)
+				.where(eq(teachersTable.userId, userId));
 
 			return subjects;
 		},

@@ -1,15 +1,15 @@
 import { Elysia, t } from "elysia";
-import { authPlugin } from "../../services/auth";
-import { getTeacherWeekSchedule } from "../../services/schedule";
+import { authPlugin } from "../../services/auth.ts";
+import { getTeacherDateSchedule } from "../../services/schedule.ts";
 
-export const teacherScheduleRoutes = new Elysia({ prefix: "/teacher/schedule" })
+export const teacherScheduleRoutes = new Elysia({ prefix: "/schedule" })
 	.use(authPlugin)
 	.get(
-		"/week/:weekId",
-		async ({ userId, params: { weekId }, status }) => {
-			const schedule = await getTeacherWeekSchedule(userId, weekId);
+		"/date/:date",
+		async ({ userId, params: { date }, status }) => {
+			const schedule = await getTeacherDateSchedule(userId, date);
 
-			if (!schedule) {
+			if (!schedule?.length) {
 				return status(404, "NOT_FOUND");
 			}
 
@@ -18,38 +18,34 @@ export const teacherScheduleRoutes = new Elysia({ prefix: "/teacher/schedule" })
 		{
 			auth: true,
 			params: t.Object({
-				weekId: t.Number(),
+				date: t.String(),
 			}),
 			response: {
 				404: t.Literal("NOT_FOUND"),
-				200: t.Object({
-					weekStart: t.String(),
-					weekEnd: t.String(),
-					schedule: t.Array(
-						t.Object({
+				200: t.Array(
+					t.Object({
+						id: t.String(),
+						dayOfWeek: t.Number(),
+						startTime: t.String(),
+						endTime: t.String(),
+						subject: t.Object({
 							id: t.String(),
-							dayOfWeek: t.Number(),
-							startTime: t.String(),
-							endTime: t.String(),
-							subject: t.Object({
-								id: t.String(),
-								name: t.String(),
-							}),
-							group: t.Object({
-								id: t.String(),
-								name: t.String(),
-								course: t.Number(),
-							}),
-							classroom: t.Union([
-								t.Object({
-									id: t.String(),
-									number: t.Number(),
-								}),
-								t.Null(),
-							]),
+							name: t.String(),
 						}),
-					),
-				}),
+						group: t.Object({
+							id: t.String(),
+							name: t.String(),
+							course: t.Number(),
+						}),
+						classroom: t.Union([
+							t.Object({
+								id: t.String(),
+								number: t.Number(),
+							}),
+							t.Null(),
+						]),
+					}),
+				),
 			},
 		},
 	);
