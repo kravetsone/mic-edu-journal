@@ -1,7 +1,7 @@
 import { useAppForm } from "@/hooks/demo.form";
 import { api } from "@/lib/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 
@@ -19,6 +19,10 @@ const schema = z.object({
 });
 
 function App() {
+	const navigate = useNavigate({
+		from: "/",
+	});
+
 	const { mutate } = useMutation({
 		mutationFn: (data: z.infer<typeof schema>) => api.auth.login.post(data),
 		onSuccess: ({ data }) => {
@@ -26,6 +30,7 @@ function App() {
 
 			localStorage.setItem("token", data?.token);
 			toast.success("Вы успешно вошли в систему");
+			navigate({ to: "/teacher" });
 		},
 		onError: (error) => {
 			console.error(error);
