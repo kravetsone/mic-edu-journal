@@ -1,8 +1,11 @@
 import { eq } from "drizzle-orm";
+import { and } from "drizzle-orm";
 import { Elysia, t } from "elysia";
 import { db } from "../../db/index.ts";
 import {
+	groupsTable,
 	schedulesTable,
+	specialtiesTable,
 	subjectsTable,
 	teachersTable,
 	usersTable,
@@ -75,6 +78,59 @@ export const teacherRoutes = new Elysia({ prefix: "/teacher" })
 					t.Object({
 						id: t.String(),
 						name: t.String(),
+					}),
+				),
+			},
+		},
+	)
+	.get(
+		"/subjects/:subjectId/groups",
+		async ({ userId, params: { subjectId }, status }) => {
+			const groups = await db
+				.selectDistinctOn([groupsTable.id], {
+					id: groupsTable.id,
+					name: groupsTable.name,
+					course: groupsTable.course,
+					specialty: {
+						id: specialtiesTable.id,
+						name: specialtiesTable.name,
+					},
+				})
+				.from(schedulesTable)
+				.innerJoin(groupsTable, eq(schedulesTable.groupId, groupsTable.id))
+				.innerJoin(
+					subjectsTable,
+					eq(schedulesTable.subjectId, subjectsTable.id),
+				)
+				.innerJoin(
+					teachersTable,
+					eq(schedulesTable.teacherId, teachersTable.id),
+				)
+				.innerJoin(
+					specialtiesTable,
+					eq(groupsTable.specialtyId, specialtiesTable.id),
+				)
+				.where(
+					and(
+						eq(subjectsTable.id, subjectId),
+						eq(teachersTable.userId, userId),
+					),
+				);
+
+			return groups;
+		},
+		{
+			auth: true,
+			response: {
+				200: t.Array(
+					t.Object({
+						id: t.String(),
+						name: t.String(),
+						course: t.Number(),
+						specialty: t.Object({
+							id: t.String(),
+							name: t.String(),
+						}),
 					}),
 				),
 			},
