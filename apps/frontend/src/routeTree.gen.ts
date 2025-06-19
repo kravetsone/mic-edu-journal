@@ -14,9 +14,9 @@ import { Route as TeacherIndexRouteImport } from './routes/teacher/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-query'
 import { Route as DemoTableRouteImport } from './routes/demo.table'
-import { Route as AdminGroupsIndexRouteImport } from './routes/admin/groups/index'
 import { Route as DemoFormAddressRouteImport } from './routes/demo.form.address'
 import { Route as TeacherSubjectsSubjectIdChooseGroupRouteImport } from './routes/teacher/subjects/$subjectId/choose-group'
+import { Route as AdminGroupsChooseReasonIndexRouteImport } from './routes/admin/groups/choose/$reason/index'
 import { Route as TeacherSubjectsSubjectIdGroupsGroupIdMarksRouteImport } from './routes/teacher/subjects/$subjectId/groups/$groupId/marks'
 
 const IndexRoute = IndexRouteImport.update({
@@ -44,11 +44,6 @@ const DemoTableRoute = DemoTableRouteImport.update({
   path: '/demo/table',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminGroupsIndexRoute = AdminGroupsIndexRouteImport.update({
-  id: '/admin/groups/',
-  path: '/admin/groups/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
   id: '/demo/form/address',
   path: '/demo/form/address',
@@ -58,6 +53,12 @@ const TeacherSubjectsSubjectIdChooseGroupRoute =
   TeacherSubjectsSubjectIdChooseGroupRouteImport.update({
     id: '/teacher/subjects/$subjectId/choose-group',
     path: '/teacher/subjects/$subjectId/choose-group',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminGroupsChooseReasonIndexRoute =
+  AdminGroupsChooseReasonIndexRouteImport.update({
+    id: '/admin/groups/choose/$reason/',
+    path: '/admin/groups/choose/$reason/',
     getParentRoute: () => rootRouteImport,
   } as any)
 const TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute =
@@ -74,8 +75,8 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminIndexRoute
   '/teacher': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
-  '/admin/groups': typeof AdminGroupsIndexRoute
   '/teacher/subjects/$subjectId/choose-group': typeof TeacherSubjectsSubjectIdChooseGroupRoute
+  '/admin/groups/choose/$reason': typeof AdminGroupsChooseReasonIndexRoute
   '/teacher/subjects/$subjectId/groups/$groupId/marks': typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute
 }
 export interface FileRoutesByTo {
@@ -85,8 +86,8 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/teacher': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
-  '/admin/groups': typeof AdminGroupsIndexRoute
   '/teacher/subjects/$subjectId/choose-group': typeof TeacherSubjectsSubjectIdChooseGroupRoute
+  '/admin/groups/choose/$reason': typeof AdminGroupsChooseReasonIndexRoute
   '/teacher/subjects/$subjectId/groups/$groupId/marks': typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute
 }
 export interface FileRoutesById {
@@ -97,8 +98,8 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/teacher/': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
-  '/admin/groups/': typeof AdminGroupsIndexRoute
   '/teacher/subjects/$subjectId/choose-group': typeof TeacherSubjectsSubjectIdChooseGroupRoute
+  '/admin/groups/choose/$reason/': typeof AdminGroupsChooseReasonIndexRoute
   '/teacher/subjects/$subjectId/groups/$groupId/marks': typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute
 }
 export interface FileRouteTypes {
@@ -110,8 +111,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/teacher'
     | '/demo/form/address'
-    | '/admin/groups'
     | '/teacher/subjects/$subjectId/choose-group'
+    | '/admin/groups/choose/$reason'
     | '/teacher/subjects/$subjectId/groups/$groupId/marks'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -121,8 +122,8 @@ export interface FileRouteTypes {
     | '/admin'
     | '/teacher'
     | '/demo/form/address'
-    | '/admin/groups'
     | '/teacher/subjects/$subjectId/choose-group'
+    | '/admin/groups/choose/$reason'
     | '/teacher/subjects/$subjectId/groups/$groupId/marks'
   id:
     | '__root__'
@@ -132,8 +133,8 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/teacher/'
     | '/demo/form/address'
-    | '/admin/groups/'
     | '/teacher/subjects/$subjectId/choose-group'
+    | '/admin/groups/choose/$reason/'
     | '/teacher/subjects/$subjectId/groups/$groupId/marks'
   fileRoutesById: FileRoutesById
 }
@@ -144,8 +145,8 @@ export interface RootRouteChildren {
   AdminIndexRoute: typeof AdminIndexRoute
   TeacherIndexRoute: typeof TeacherIndexRoute
   DemoFormAddressRoute: typeof DemoFormAddressRoute
-  AdminGroupsIndexRoute: typeof AdminGroupsIndexRoute
   TeacherSubjectsSubjectIdChooseGroupRoute: typeof TeacherSubjectsSubjectIdChooseGroupRoute
+  AdminGroupsChooseReasonIndexRoute: typeof AdminGroupsChooseReasonIndexRoute
   TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute: typeof TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute
 }
 
@@ -186,13 +187,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoTableRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/groups/': {
-      id: '/admin/groups/'
-      path: '/admin/groups'
-      fullPath: '/admin/groups'
-      preLoaderRoute: typeof AdminGroupsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/demo/form/address': {
       id: '/demo/form/address'
       path: '/demo/form/address'
@@ -205,6 +199,13 @@ declare module '@tanstack/react-router' {
       path: '/teacher/subjects/$subjectId/choose-group'
       fullPath: '/teacher/subjects/$subjectId/choose-group'
       preLoaderRoute: typeof TeacherSubjectsSubjectIdChooseGroupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/groups/choose/$reason/': {
+      id: '/admin/groups/choose/$reason/'
+      path: '/admin/groups/choose/$reason'
+      fullPath: '/admin/groups/choose/$reason'
+      preLoaderRoute: typeof AdminGroupsChooseReasonIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/teacher/subjects/$subjectId/groups/$groupId/marks': {
@@ -224,9 +225,9 @@ const rootRouteChildren: RootRouteChildren = {
   AdminIndexRoute: AdminIndexRoute,
   TeacherIndexRoute: TeacherIndexRoute,
   DemoFormAddressRoute: DemoFormAddressRoute,
-  AdminGroupsIndexRoute: AdminGroupsIndexRoute,
   TeacherSubjectsSubjectIdChooseGroupRoute:
     TeacherSubjectsSubjectIdChooseGroupRoute,
+  AdminGroupsChooseReasonIndexRoute: AdminGroupsChooseReasonIndexRoute,
   TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute:
     TeacherSubjectsSubjectIdGroupsGroupIdMarksRoute,
 }

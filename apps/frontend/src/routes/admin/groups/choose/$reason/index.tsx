@@ -9,12 +9,13 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
-export const Route = createFileRoute("/admin/groups/")({
+export const Route = createFileRoute("/admin/groups/choose/$reason/")({
 	component: GroupsPage,
 });
 
 function GroupsPage() {
 	const navigate = useNavigate();
+	const { reason } = Route.useParams();
 	const qc = useQueryClient();
 	const [search, setSearch] = useState("");
 	const [dialogOpen, setDialogOpen] = useState(false);
@@ -48,7 +49,6 @@ function GroupsPage() {
 			qc.invalidateQueries({ queryKey: ["groups"] });
 		},
 	});
-
 
 	return (
 		<div className="flex flex-col min-h-screen bg-background-content">
@@ -97,5 +97,5 @@ function GroupsPage() {
 				onCreate={(payload) => createMutation.mutate(payload)}
 			/>
 		</div>
-	);
+	)
 }
