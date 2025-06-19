@@ -1,5 +1,7 @@
 # mic-edu-journal
 
+Проект «Электронный журнал» созданный в рамках дипломной работы.
+
 ### Stack
 
 -   Web framework - [ElysiaJS](https://elysiajs.com/)
