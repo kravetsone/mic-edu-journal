@@ -18,22 +18,6 @@ export const getTeacherDateSchedule = async (
 	userId: string,
 	dateRaw: string,
 ): Promise<WeekScheduleItem[] | null> => {
-	const [teacher] = await db
-		.select({
-			teacherId: teachersTable.id,
-			firstName: usersTable.firstName,
-			lastName: usersTable.lastName,
-			patronymic: usersTable.patronymic,
-		})
-		.from(teachersTable)
-		.innerJoin(usersTable, eq(teachersTable.userId, usersTable.id))
-		.where(eq(usersTable.id, userId))
-		.limit(1);
-
-	if (!teacher) {
-		return null;
-	}
-
 	const date = DateTime.fromFormat(dateRaw, "dd.MM.yyyy", {
 		zone: "Europe/Moscow",
 	});
@@ -65,10 +49,11 @@ export const getTeacherDateSchedule = async (
 			classroomsTable,
 			eq(schedulesTable.classroomId, classroomsTable.id),
 		)
+		.innerJoin(teachersTable, eq(schedulesTable.teacherId, teachersTable.id))
 		.where(
 			and(
-				eq(schedulesTable.teacherId, teacher.teacherId),
-				// eq(schedulesTable.dayOfWeek, date.weekday),
+				eq(teachersTable.userId, userId),
+				eq(schedulesTable.dayOfWeek, date.weekday),
 			),
 		)
 		.orderBy(schedulesTable.dayOfWeek, schedulesTable.startTime);
