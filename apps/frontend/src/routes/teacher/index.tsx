@@ -14,6 +14,8 @@ export const Route = createFileRoute("/teacher/")({
 });
 
 function TeacherPage() {
+	const navigate = useNavigate();
+
 	const { data: teacher } = useQuery({
 		queryKey: ["teacher"],
 		queryFn: () => api.teacher.get(),
@@ -49,8 +51,13 @@ function TeacherPage() {
 		setDate((d) => d.add(d.day() === 5 ? 3 : 1, "day"));
 	};
 
-	const goChooseGroup = (subject: string) => {
-		// TODO route to choose group with subject param
+	const goChooseGroup = (subjectId: string) => {
+		navigate({
+			to: "/teacher/subjects/$subjectId/choose-group",
+			params: {
+				subjectId,
+			},
+		});
 	};
 
 	const daysRu = [
@@ -82,34 +89,24 @@ function TeacherPage() {
 
 					<h2 className="text-lg font-semibold mb-3">Выберите предмет</h2>
 					<div className="flex flex-wrap">
-						{subjects.data.map((s: string) => (
-							<SubjectChip key={s} title={s} onClick={() => goChooseGroup(s)} />
-						))}
-					</div>
-
-					{/* <h2 className="text-lg font-semibold mt-10 mb-3">
-						Курируемые группы
-					</h2>
-					<div className="flex flex-col max-w-md">
-						{teacher.data.groups?.map((g: any) => (
-							<GroupCard
-								key={g.id}
-								name={g.name}
-								course={g.course}
-								specialty={g.specialty}
+						{subjects.data.map((s) => (
+							<SubjectChip
+								key={s.id}
+								title={s.name}
+								onClick={() => goChooseGroup(s.id)}
 							/>
 						))}
-					</div> */}
+					</div>
 				</section>
 
 				<aside className="w-full lg:w-[320px]">
 					<div className="flex items-center justify-center mb-4">
 						<button
 							type="button"
-							className="change-day"
+							className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-white hover:bg-accent/90"
 							onClick={handlePrevDay}
 						>
-							<ChevronLeft size={24} className="text-white" />
+							<ChevronLeft size={20} />
 						</button>
 						<div className="mx-4 font-medium">
 							{date.format("DD.MM")}{" "}
@@ -117,26 +114,26 @@ function TeacherPage() {
 						</div>
 						<button
 							type="button"
-							className="change-day"
+							className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-white hover:bg-accent/90"
 							onClick={handleNextDay}
 						>
-							<ChevronRight size={24} className="text-white" />
+							<ChevronRight size={20} />
 						</button>
 					</div>
 
 					<div className="flex flex-col items-center gap-2">
-						{!schedule?.length && (
+						{!schedule?.data?.length && (
 							<div className="w-[310px] bg-gray-100 rounded-lg p-3 text-center text-sm text-muted-foreground">
 								На этот день пар у вас нет
 							</div>
 						)}
-						{schedule?.map((item: any, idx: number) => (
+						{schedule?.data?.map((item) => (
 							<ScheduleItem
-								key={idx}
+								key={item.id}
 								id={item.id}
-								subject={item.name}
-								groupName={item.groupName}
-								type={item.type}
+								subject={item.subject.name}
+								groupName={item.group.name}
+								type={"default"}
 							/>
 						))}
 					</div>

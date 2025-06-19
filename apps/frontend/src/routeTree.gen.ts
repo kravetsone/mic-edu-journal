@@ -14,6 +14,7 @@ import { Route as TeacherIndexRouteImport } from './routes/teacher/index'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo.tanstack-query'
 import { Route as DemoTableRouteImport } from './routes/demo.table'
 import { Route as DemoFormAddressRouteImport } from './routes/demo.form.address'
+import { Route as TeacherSubjectsSubjectIdChooseGroupRouteImport } from './routes/teacher/subjects/$subjectId/choose-group'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -40,6 +41,12 @@ const DemoFormAddressRoute = DemoFormAddressRouteImport.update({
   path: '/demo/form/address',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TeacherSubjectsSubjectIdChooseGroupRoute =
+  TeacherSubjectsSubjectIdChooseGroupRouteImport.update({
+    id: '/teacher/subjects/$subjectId/choose-group',
+    path: '/teacher/subjects/$subjectId/choose-group',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -47,6 +54,7 @@ export interface FileRoutesByFullPath {
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/teacher': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
+  '/teacher/subjects/$subjectId/choose-group': typeof TeacherSubjectsSubjectIdChooseGroupRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -54,6 +62,7 @@ export interface FileRoutesByTo {
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/teacher': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
+  '/teacher/subjects/$subjectId/choose-group': typeof TeacherSubjectsSubjectIdChooseGroupRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -62,6 +71,7 @@ export interface FileRoutesById {
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
   '/teacher/': typeof TeacherIndexRoute
   '/demo/form/address': typeof DemoFormAddressRoute
+  '/teacher/subjects/$subjectId/choose-group': typeof TeacherSubjectsSubjectIdChooseGroupRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,6 +81,7 @@ export interface FileRouteTypes {
     | '/demo/tanstack-query'
     | '/teacher'
     | '/demo/form/address'
+    | '/teacher/subjects/$subjectId/choose-group'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -78,6 +89,7 @@ export interface FileRouteTypes {
     | '/demo/tanstack-query'
     | '/teacher'
     | '/demo/form/address'
+    | '/teacher/subjects/$subjectId/choose-group'
   id:
     | '__root__'
     | '/'
@@ -85,6 +97,7 @@ export interface FileRouteTypes {
     | '/demo/tanstack-query'
     | '/teacher/'
     | '/demo/form/address'
+    | '/teacher/subjects/$subjectId/choose-group'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -93,6 +106,7 @@ export interface RootRouteChildren {
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
   TeacherIndexRoute: typeof TeacherIndexRoute
   DemoFormAddressRoute: typeof DemoFormAddressRoute
+  TeacherSubjectsSubjectIdChooseGroupRoute: typeof TeacherSubjectsSubjectIdChooseGroupRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -132,6 +146,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoFormAddressRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/teacher/subjects/$subjectId/choose-group': {
+      id: '/teacher/subjects/$subjectId/choose-group'
+      path: '/teacher/subjects/$subjectId/choose-group'
+      fullPath: '/teacher/subjects/$subjectId/choose-group'
+      preLoaderRoute: typeof TeacherSubjectsSubjectIdChooseGroupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -141,6 +162,8 @@ const rootRouteChildren: RootRouteChildren = {
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
   TeacherIndexRoute: TeacherIndexRoute,
   DemoFormAddressRoute: DemoFormAddressRoute,
+  TeacherSubjectsSubjectIdChooseGroupRoute:
+    TeacherSubjectsSubjectIdChooseGroupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

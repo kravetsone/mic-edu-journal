@@ -34,9 +34,9 @@ export function ScheduleItem({
 				className,
 			)}
 		>
-			<div className="flex-none w-8 h-8 flex items-center justify-center rounded bg-accent text-white mr-3 text-xs font-bold">
-				{id}
-			</div>
+			{/* <div className="flex-none w-8 h-8 flex items-center justify-center rounded bg-accent text-white mr-3 text-xs font-bold"> */}
+			{/* {id} */}
+			{/* </div> */}
 			<div>
 				<div className="font-medium text-sm mb-0.5">
 					{type === "cancelled" ? "Отменена" : subject}
