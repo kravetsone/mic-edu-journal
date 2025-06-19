@@ -154,20 +154,29 @@ export const teacherRoutes = new Elysia({ prefix: "/teacher" })
 				.endOf("month")
 				.toISODate()!;
 
-			const lessonDatesRes = await db
-				.selectDistinct({ date: marksTable.date })
-				.from(marksTable)
-				.innerJoin(schedulesTable, eq(marksTable.scheduleId, schedulesTable.id))
+			const calendar = await db
+				.select({
+					lessonDate: sql<string>`gs`,
+				})
+				.from(
+					sql`(
+					 select generate_series(${start}::date, ${end}::date, interval '1 day') as gs
+				 ) as calendar`,
+				)
+				.innerJoin(
+					schedulesTable,
+					sql`extract(isodow from gs)::int = ${schedulesTable.dayOfWeek}`,
+				)
 				.where(
 					and(
 						eq(schedulesTable.groupId, groupId),
 						eq(schedulesTable.subjectId, subjectId),
-						between(marksTable.date, start, end),
 					),
 				)
-				.orderBy(marksTable.date);
+				.orderBy(sql`gs`);
 
-			const dates = lessonDatesRes.map((d) => d.date);
+			const toIsoDate = (d: string) => d.slice(0, 10);
+			const dates = calendar.map((c) => toIsoDate(c.lessonDate));
 
 			const students = await db
 				.select({
@@ -196,7 +205,7 @@ export const teacherRoutes = new Elysia({ prefix: "/teacher" })
 			for (const { marks } of allMarks) {
 				const m = marks as typeof marksTable.$inferSelect;
 				if (!markDict[m.studentId]) markDict[m.studentId] = {};
-				markDict[m.studentId]![m.date] = m.mark;
+				markDict[m.studentId]![toIsoDate(m.date)] = m.mark;
 			}
 
 			const rows = students.map((s) => {
