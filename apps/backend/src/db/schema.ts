@@ -8,6 +8,7 @@ import {
 	text,
 	time,
 	timestamp,
+	uniqueIndex,
 	uuid,
 } from "drizzle-orm/pg-core";
 
@@ -116,18 +117,30 @@ export const classroomsTable = pgTable("classrooms", {
 
 export const markEnum = pgEnum("mark", ["absent", "1", "2", "3", "4", "5"]);
 
-export const marksTable = pgTable("marks", {
-	id: uuid("id").primaryKey().defaultRandom(),
-	studentId: uuid("student_id")
-		.notNull()
-		.references(() => studentsTable.id),
-	scheduleId: uuid("schedule_id")
-		.notNull()
-		.references(() => schedulesTable.id),
+export type Mark = (typeof markEnum.enumValues)[number];
 
-	mark: markEnum("mark").notNull(),
+export const marksTable = pgTable(
+	"marks",
+	{
+		id: uuid("id").primaryKey().defaultRandom(),
+		studentId: uuid("student_id")
+			.notNull()
+			.references(() => studentsTable.id),
+		scheduleId: uuid("schedule_id")
+			.notNull()
+			.references(() => schedulesTable.id),
 
-	date: date("date").notNull(),
+		mark: markEnum("mark").notNull(),
 
-	createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+		date: date("date").notNull(),
+
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+	},
+	(t) => [
+		uniqueIndex("unique_student_schedule_date").on(
+			t.studentId,
+			t.scheduleId,
+			t.date,
+		),
+	],
+);

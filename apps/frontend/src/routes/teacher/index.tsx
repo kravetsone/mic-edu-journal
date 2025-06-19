@@ -134,6 +134,15 @@ function TeacherPage() {
 								subject={item.subject.name}
 								groupName={item.group.name}
 								type={"default"}
+								onClick={() =>
+									navigate({
+										to: "/teacher/subjects/$subjectId/groups/$groupId/marks",
+										params: {
+											subjectId: item.subject.id,
+											groupId: item.group.id,
+										},
+									})
+								}
 							/>
 						))}
 					</div>

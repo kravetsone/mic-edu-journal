@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "unique_student_schedule_date" ON "marks" USING btree ("student_id","schedule_id","date");

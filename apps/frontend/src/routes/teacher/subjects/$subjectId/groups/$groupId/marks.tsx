@@ -1,11 +1,13 @@
 import { Header } from "@/components/Header";
+import { MarkDialog } from "@/components/mark-dialog";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState } from "react";
+import type { Mark } from "../../../../../../../../backend/src/db/schema";
 
 export const Route = createFileRoute(
 	"/teacher/subjects/$subjectId/groups/$groupId/marks",
@@ -17,6 +19,12 @@ function MarksPage() {
 	const navigate = useNavigate();
 	const { subjectId, groupId } = Route.useParams();
 	const [date, setDate] = useState(() => dayjs());
+	const [editing, setEditing] = useState<{
+		studentId: string;
+		studentName: string;
+		date: string;
+		currentMark: Mark | null;
+	} | null>(null);
 
 	const { data: teacher } = useQuery({
 		queryKey: ["teacher"],
@@ -33,6 +41,18 @@ function MarksPage() {
 					year: date.year(),
 				})({ month: date.month() + 1 })
 				.get(),
+	});
+
+	const qc = useQueryClient();
+
+	const setMarkMutation = useMutation({
+		mutationFn: (input: { studentId: string; date: string; mark: Mark }) =>
+			api.teacher.subjects({ subjectId }).groups({ groupId }).marks.post(input),
+		onSuccess: () => {
+			qc.invalidateQueries({
+				queryKey: ["marks", subjectId, groupId, date.year(), date.month()],
+			});
+		},
 	});
 
 	const daysRu = [
@@ -118,12 +138,21 @@ function MarksPage() {
 										{row.patronymic ? `${row.patronymic[0]}.` : ""}
 									</td>
 									{row.marks.map((m, i) => (
+										// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 										<td
 											key={`${row.studentId}-${i}`}
 											className="p-2 cursor-pointer bg-violet-50 hover:bg-accent/30"
-											// TODO open mark modal
+											onClick={() =>
+												setEditing({
+													studentId: row.studentId,
+													studentName:
+														`${row.lastName} ${row.firstName} ${row.patronymic ?? ""}`.trim(),
+													date: dates[i],
+													currentMark: m,
+												})
+											}
 										>
-											{m ?? ""}
+											{m === "absent" ? "Н" : (m ?? "")}
 										</td>
 									))}
 									<td className="p-2 font-semibold">
@@ -135,7 +164,22 @@ function MarksPage() {
 					</table>
 				</div>
 
-				{/* TODO: модалка выставления оценок, домашки, импорт/экспорт Excel */}
+				{editing && (
+					<MarkDialog
+						open={Boolean(editing)}
+						studentName={editing.studentName}
+						date={editing.date}
+						currentMark={editing.currentMark}
+						onClose={() => setEditing(null)}
+						onSave={(mark) =>
+							setMarkMutation.mutate({
+								studentId: editing.studentId,
+								date: editing.date.slice(0, 10),
+								mark,
+							})
+						}
+					/>
+				)}
 			</div>
 		</div>
 	);

@@ -249,11 +249,78 @@ export const teacherRoutes = new Elysia({ prefix: "/teacher" })
 							firstName: t.String(),
 							lastName: t.String(),
 							patronymic: t.Nullable(t.String()),
-							marks: t.Array(t.Nullable(t.String())),
+							marks: t.Array(
+								t.Nullable(t.UnionEnum(["absent", "1", "2", "3", "4", "5"])),
+							),
 							average: t.Nullable(t.Number()),
 						}),
 					),
 				}),
+			},
+		},
+	)
+	.post(
+		"/subjects/:subjectId/groups/:groupId/marks",
+		async ({
+			userId,
+			params: { subjectId, groupId },
+			body: { studentId, date, mark },
+			status,
+		}) => {
+			const [teacher] = await db
+				.select({ id: teachersTable.id })
+				.from(teachersTable)
+				.where(eq(teachersTable.userId, userId));
+
+			if (!teacher) return status(403, "FORBIDDEN");
+
+			const lessonDay = DateTime.fromISO(date).weekday;
+
+			const [schedule] = await db
+				.select({ id: schedulesTable.id })
+				.from(schedulesTable)
+				.where(
+					and(
+						eq(schedulesTable.groupId, groupId),
+						eq(schedulesTable.subjectId, subjectId),
+						eq(schedulesTable.dayOfWeek, lessonDay),
+						eq(schedulesTable.teacherId, teacher.id),
+					),
+				)
+				.limit(1);
+
+			if (!schedule) return status(400, "NO_SCHEDULE");
+
+			await db
+				.insert(marksTable)
+				.values({
+					studentId,
+					scheduleId: schedule.id,
+					date,
+					mark,
+				})
+				.onConflictDoUpdate({
+					target: [
+						marksTable.studentId,
+						marksTable.scheduleId,
+						marksTable.date,
+					],
+					set: { mark },
+				});
+
+			return status(204, "OK");
+		},
+		{
+			auth: true,
+			body: t.Object({
+				studentId: t.String(),
+				date: t.String(),
+				mark: t.UnionEnum(["absent", "1", "2", "3", "4", "5"]),
+			}),
+			response: {
+				204: t.Literal("OK"),
+				400: t.Literal("NO_SCHEDULE"),
+				403: t.Literal("FORBIDDEN"),
 			},
 		},
 	);
