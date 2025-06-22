@@ -1,0 +1,8 @@
+мик-колледж.рф {
+    root * /srv/frontend
+    file_server
+}
+
+api.мик-колледж.рф {
+    reverse_proxy backend:3000
+} 
