@@ -3,6 +3,9 @@
 	"type": "module",
 	"private": true,
 	"workspaces": ["apps/*", "packages/*"],
+	"scripts": {
+		"start:backend": "bunx drizzle-kit migrate && bun --filter=apps/backend start"
+	},
 	"overrides": {
 		"@tanstack/react-router": "^1.121.2",
 		"@tanstack/router-generator": "1.121.16",

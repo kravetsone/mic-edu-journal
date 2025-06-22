@@ -34,23 +34,23 @@ services:
     #     volumes:
     #         - redis_data:/data
     # minio:
-        container_name: mic-edu-journal-minio
-        image: minio/minio:latest
-        command: ["minio", "server", "/data", "--console-address", ":9001"]
-        restart: unless-stopped
-        environment:
-            - MINIO_ACCESS_KEY=mic-edu-journal
-            - MINIO_SECRET_KEY=fd5b47ab8081ef9597d371de
-        ports:
-            - 9000:9000
-            - 9001:9001
-        volumes:
-            - minio_data:/data
-        healthcheck:
-            test: ["CMD", "mc", "ready", "local"]
-            interval: 5s
-            timeout: 5s
-            retries: 5
+    # container_name: mic-edu-journal-minio
+    # image: minio/minio:latest
+    # command: ["minio", "server", "/data", "--console-address", ":9001"]
+    # restart: unless-stopped
+    # environment:
+    #     - MINIO_ACCESS_KEY=mic-edu-journal
+    #     - MINIO_SECRET_KEY=fd5b47ab8081ef9597d371de
+    # ports:
+    #     - 9000:9000
+    #     - 9001:9001
+    # volumes:
+    #     - minio_data:/data
+    # healthcheck:
+    #     test: ["CMD", "mc", "ready", "local"]
+    #     interval: 5s
+    #     timeout: 5s
+    #     retries: 5
     # caddy:
     #     container_name: mic-edu-journal-caddy
     #     image: caddy:latest

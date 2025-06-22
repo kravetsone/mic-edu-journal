@@ -8,8 +8,4 @@ RUN bun install
 
 ENV NODE_ENV=production
 
-RUN bunx drizzle-kit migrate
-
-WORKDIR /app/apps/backend
-
-ENTRYPOINT [ "bun", "start" ]
+ENTRYPOINT [ "bun", "start:backend" ]
