@@ -1,12 +1,36 @@
 import { useAppForm } from "@/hooks/demo.form";
 import { api } from "@/lib/api";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 
 export const Route = createFileRoute("/")({
 	component: App,
+	beforeLoad: async () => {
+		const token = localStorage.getItem("token");
+
+		if (token) {
+			const { data } = await api.user.get();
+			if (data?.role === "admin") {
+				throw redirect({
+					to: "/admin/groups/choose/$reason",
+					params: {
+						reason: "create",
+					},
+				});
+			}
+
+			if (data?.role === "student") {
+				return toast.error("Студенты ещё не реализованы");
+				// throw redirect({ to: "/student" });
+			}
+
+			if (data?.role === "teacher") {
+				throw redirect({ to: "/teacher" });
+			}
+		}
+	},
 });
 
 const schema = z.object({
@@ -32,8 +56,15 @@ function App() {
 			toast.success("Вы успешно вошли в систему");
 
 			if (data?.role === "admin") {
-				navigate({ to: "/admin/groups" });
-			} else {
+				navigate({
+					to: "/admin/groups/choose/$reason",
+					params: {
+						reason: "create",
+					},
+				});
+			} else if (data?.role === "student") {
+				return toast.error("Студенты ещё не реализованы");
+			} else if (data?.role === "teacher") {
 				navigate({ to: "/teacher" });
 			}
 		},

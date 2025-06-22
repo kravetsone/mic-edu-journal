@@ -8,6 +8,7 @@ import { config } from "./config.ts";
 import { adminRoutes } from "./routes/admin/index.ts";
 import { authRoutes } from "./routes/auth/index.ts";
 import { teacherRoutes } from "./routes/teacher/index.ts";
+import { userRoutes } from "./routes/user/index.ts";
 
 export const app = new Elysia()
 	.onError(({ error, request }) => {
@@ -20,6 +21,7 @@ export const app = new Elysia()
 	.use(jwt({ secret: config.JWT_SECRET }))
 	.use(authRoutes)
 	.use(teacherRoutes)
-	.use(adminRoutes);
+	.use(adminRoutes)
+	.use(userRoutes);
 
 export type App = typeof app;
