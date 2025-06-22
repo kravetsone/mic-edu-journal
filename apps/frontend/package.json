@@ -37,11 +37,11 @@
 		"zod": "^3.24.2"
 	},
 	"devDependencies": {
-		"@tanstack/react-router": "1.121.16",
-		"@tanstack/react-router-devtools": "1.121.16",
-		"@tanstack/router-core": "1.121.16",
-		"@tanstack/router-generator": "1.121.16",
-		"@tanstack/router-plugin": "1.121.16",
+		"@tanstack/react-router": "^1.121.2",
+		"@tanstack/react-router-devtools": "^1.121.2",
+		"@tanstack/router-core": "^1.121.2",
+		"@tanstack/router-generator": "^1.121.2",
+		"@tanstack/router-plugin": "^1.121.2",
 		"@testing-library/dom": "^10.4.0",
 		"@testing-library/react": "^16.2.0",
 		"@types/react": "^19.0.8",
@@ -52,21 +52,5 @@
 		"vite": "^6.1.0",
 		"vitest": "^3.0.5",
 		"web-vitals": "^4.2.4"
-	},
-	"overrides": {
-		"@tanstack/react-router": "^1.121.2",
-		"@tanstack/router-generator": "1.121.16",
-		"@tanstack/router-plugin": "1.121.16",
-		"@tanstack/router-core": "1.121.16"
-	},
-	"pnpm": {
-		"overrides": {
-			"@tanstack/react-router": "1.121.16",
-			"@tanstack/router-generator": "1.121.16",
-			"@tanstack/router-plugin": "1.121.16",
-			"@tanstack/router-core": "1.121.16",
-			"@tanstack/react-router-devtools": "1.121.16",
-			"@tanstack/router-devtools-core": "1.121.16"
-		}
 	}
 }
